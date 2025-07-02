@@ -127,4 +127,12 @@ return {
             vim.keymap.set("n", "<leader>dr", dap.repl.open, { desc = "DAP: Open REPL" })
         end,
     },
+    {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            require("harpoon").setup({})
+        end,
+    },
 }
