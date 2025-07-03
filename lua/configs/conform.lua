@@ -22,12 +22,12 @@ local options = {
         --     },
         -- },
         -- -- Golang
-        -- ["goimports-reviser"] = {
-        --     prepend_args = { "-rm-unused" },
-        -- },
-        -- golines = {
-        --     prepend_args = { "--max-len=80" },
-        -- },
+        ["goimports-reviser"] = {
+            prepend_args = { "-rm-unused" },
+        },
+        golines = {
+            prepend_args = { "--max-len=80" },
+        },
         -- -- Lua
         -- stylua = {
         --     prepend_args = {

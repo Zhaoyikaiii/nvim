@@ -99,21 +99,24 @@ lspconfig.lua_ls.setup({
     },
 })
 
-local util = require("lspconfig/util")
-
 lspconfig.gopls.setup({
-    on_attach = require("nvchad.configs.lspconfig").on_attach,
-    capabilities = require("nvchad.configs.lspconfig").capabilities,
+    on_attach = function(client, bufnr)
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+        on_attach(client, bufnr)
+    end,
+    on_init = on_init,
+    capabilities = capabilities,
     cmd = { "gopls" },
-    filetypes = { "go", "gomod", "gowork", "gotmpl" },
-    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+    filetypes = { "go", "gomod", "gotmpl", "gowork" },
+    root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
     settings = {
         gopls = {
-            completeUnimported = true,
-            usePlaceholders = true,
             analyses = {
                 unusedparams = true,
             },
+            completeUnimported = true,
+            usePlaceholders = true,
             staticcheck = true,
         },
     },
