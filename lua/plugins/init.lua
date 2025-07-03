@@ -135,4 +135,13 @@ return {
             require("harpoon").setup({})
         end,
     },
+    {
+        "NeogitOrg/neogit",
+        dependencies = {
+            "nvim-lua/plenary.nvim", -- required
+            "sindrets/diffview.nvim", -- optional - for better diff viewing
+            "nvim-telescope/telescope.nvim", -- optional
+        },
+        config = true,
+    },
 }

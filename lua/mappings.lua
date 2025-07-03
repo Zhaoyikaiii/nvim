@@ -46,3 +46,30 @@ end, { desc = "Harpoon: Go to mark 4" })
 
 -- 在 Harpoon 菜单中，你也可以设置快捷键来编辑列表
 -- 比如在菜单打开时，按 'd' 删除标记，按 's' 交换位置等
+
+-- === Gitsigns (行级操作) ===
+-- gitsigns 的跳转功能
+map("n", "]h", function()
+    require("gitsigns").next_hunk()
+end, { desc = "Git: Next Hunk" })
+map("n", "[h", function()
+    require("gitsigns").prev_hunk()
+end, { desc = "Git: Prev Hunk" })
+
+-- gitsigns 的暂存和撤销
+map("n", "<leader>gs", function()
+    require("gitsigns").stage_hunk()
+end, { desc = "Git: Stage Hunk" })
+map("n", "<leader>gu", function()
+    require("gitsigns").undo_stage_hunk()
+end, { desc = "Git: Undo Stage Hunk" })
+map("n", "<leader>gr", function()
+    require("gitsigns").reset_hunk()
+end, { desc = "Git: Reset Hunk" })
+map("n", "<leader>gp", function()
+    require("gitsigns").preview_hunk()
+end, { desc = "Git: Preview Hunk" })
+
+-- === Neogit (项目级操作) ===
+map("n", "<leader>gg", ":Neogit<CR>", { desc = "Git: Neogit Status" })
+map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Find in Files (Grep)" })
