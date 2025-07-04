@@ -59,6 +59,7 @@ return {
             require("configs.mason-conform")
         end,
     },
+
     {
         "ray-x/go.nvim",
         dependencies = {
@@ -73,6 +74,7 @@ return {
         ft = { "go", "gomod" },
         build = ':lua require("go.install").update_all_sync()',
     },
+
     {
         "mfussenegger/nvim-dap",
         -- event = "VeryLazy", -- 可以让它延迟加载，加快启动速度
@@ -127,6 +129,7 @@ return {
             vim.keymap.set("n", "<leader>dr", dap.repl.open, { desc = "DAP: Open REPL" })
         end,
     },
+
     {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
@@ -135,6 +138,7 @@ return {
             require("harpoon").setup({})
         end,
     },
+
     {
         "NeogitOrg/neogit",
         dependencies = {
@@ -143,5 +147,54 @@ return {
             "nvim-telescope/telescope.nvim", -- optional
         },
         config = true,
+    },
+
+    {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
+        config = function()
+            require("copilot").setup({
+                suggestion = {
+                    enabled = true,
+                    auto_trigger = true,
+                    keymap = {
+                        accept = "<Tab>", -- 使用 Tab 键接受建议
+                        next = "<C-j>", -- 查看下一个建议
+                        prev = "<C-k>", -- 查看上一个建议
+                        dismiss = "<C-e>", -- 关闭建议
+                    },
+                },
+                panel = { enabled = false }, -- 可以用 :Copilot panel 打开一个窗口查看多个建议
+            })
+        end,
+    },
+    {
+        "zbirenbaum/copilot-cmp",
+        config = function()
+            require("copilot_cmp").setup()
+        end,
+    },
+
+    {
+        "hrsh7th/nvim-cmp",
+        opts = function(_, opts)
+            local cmp = require("cmp")
+            table.insert(opts.sources, 1, { name = "copilot" })
+            opts.mapping["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            opts.mapping["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+            return opts
+        end,
+    },
+
+    {
+        "hrsh7th/nvim-cmp",
+        opts = function(_, opts)
+            local cmp = require("cmp")
+            table.insert(opts.sources, 1, { name = "copilot" })
+            opts.mapping["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            opts.mapping["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+            return opts
+        end,
     },
 }
