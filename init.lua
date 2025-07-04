@@ -38,3 +38,14 @@ require("nvchad.autocmds")
 vim.schedule(function()
     require("mappings")
 end)
+
+local autoreload_group = vim.api.nvim_create_augroup("AutoReloadOnChange", { clear = true })
+
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+    group = autoreload_group,
+    pattern = "*",
+    desc = "Automatically check for file changes on disk",
+    callback = function()
+        vim.cmd.checktime()
+    end,
+})

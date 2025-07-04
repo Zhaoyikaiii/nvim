@@ -15,3 +15,4 @@ o.number = true
 
 -- set filetype for .CBL COBOL files.
 -- vim.cmd([[ au BufRead,BufNewFile *.CBL set filetype=cobol ]])
+o.autoread = true
