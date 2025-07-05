@@ -197,4 +197,13 @@ return {
             return opts
         end,
     },
+
+    {
+        "NeogitOrg/neogit",
+        dependencies = {
+            "nvim-lua/plenary.nvim", -- Neogit 的必要依赖
+            "sindrets/diffview.nvim", -- 可选 - 用于更好的差异查看
+        },
+        config = true,
+    },
 }
