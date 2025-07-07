@@ -200,10 +200,115 @@ return {
 
     {
         "NeogitOrg/neogit",
+
+        -- [必需] 声明所有依赖
         dependencies = {
-            "nvim-lua/plenary.nvim", -- Neogit 的必要依赖
-            "sindrets/diffview.nvim", -- 可选 - 用于更好的差异查看
+            "nvim-lua/plenary.nvim", -- [必需] Neogit 的核心依赖库
+            "sindrets/diffview.nvim", -- [推荐] 提供强大的分屏 diff 功能
+            "nvim-telescope/telescope.nvim", -- [推荐] 用于模糊搜索 Git 日志等
         },
-        config = true,
+
+        -- [必需] 设置懒加载触发命令
+        cmd = "Neogit",
+
+        -- [核心] 插件的主要配置
+        config = function()
+            -- 首先获取 neogit 模块
+            local neogit = require("neogit")
+
+            -- 调用 setup 函数进行详细配置
+            neogit.setup({
+                -- [UI/UX] 关闭启动时的欢迎提示，熟练后可以设为 true
+                disable_hint = false,
+
+                -- [UI/UX] 记住上次 Neogit 窗口的大小
+                remember_window_size = true,
+
+                -- [UI/UX] 默认使用浮动窗口打开，视觉效果更好。你也可以改为 'tab' 或 'split'
+                kind = "floating",
+
+                -- [核心] Neogit 内部窗口的快捷键映射
+                mappings = {
+                    -- Status 状态窗口中的按键
+                    status = {
+                        -- s: 暂存 (Stage)
+                        ["s"] = "Stage",
+                        -- u: 取消暂存 (Unstage)
+                        ["u"] = "Unstage",
+                        -- c: 提交 (Commit)
+                        ["c"] = "Commit",
+                        -- p: 推送 (Push)
+                        ["p"] = "Push",
+                        -- P: 拉取 (Pull)
+                        ["P"] = "Pull",
+                        -- $: 储藏 (Stash)
+                        ["$"] = "Stash",
+                        -- r: 变基 (Rebase)
+                        ["r"] = "Rebase",
+                        -- <Tab>: 在不同区域（未暂存、已暂存、最近提交等）之间切换
+                        ["<tab>"] = "Toggle",
+                        -- <c-r>: 强制刷新 Git 状态
+                        ["<c-r>"] = "Refresh",
+                    },
+                },
+
+                -- [集成] 与其他插件的集成配置
+                integrations = {
+                    -- [推荐] 启用 diffview.nvim 集成
+                    -- 启用后，在 Neogit 中对 commit 或 hunk 按 'd' 或 '<c-d>' 会用 diffview 打开
+                    diffview = true,
+
+                    -- [推荐] 启用 telescope.nvim 集成
+                    -- 启用后，会添加 :Neogit telescope git_commits 等命令
+                    telescope = true,
+                },
+
+                -- [可选] 对特定窗口类型的进一步定制
+                commit_editor = {
+                    kind = "vsplit", -- 提交 commit message 时，使用垂直分屏
+                },
+                commit_view = {
+                    kind = "tab", -- 查看单个 commit 的详情时，在新标签页中打开
+                },
+            })
+
+            -- [核心] 设置一些全局快捷键，方便从任何地方调用 Neogit
+            -- 注意: 'n' 代表 Normal 模式, <leader> 是你的前导键 (通常是 '\' 或 '空格')
+
+            -- 打开 Neogit 主窗口
+            vim.keymap.set("n", "<leader>gg", function()
+                neogit.open()
+            end, { silent = true, desc = "[G]it: Open Neogit" })
+
+            -- 查看当前分支的提交日志 (会打开 Neogit 并切换到 log 视图)
+            vim.keymap.set("n", "<leader>gl", function()
+                neogit.open({ "log" })
+            end, { silent = true, desc = "[G]it: View [L]og" })
+
+            -- 查看当前光标下文件的提交历史
+            vim.keymap.set("n", "<leader>gf", function()
+                neogit.open({ "log", vim.fn.expand("%") })
+            end, { silent = true, desc = "[G]it: View [F]ile History" })
+
+            -- 快速打开变基 (rebase) 视图
+            vim.keymap.set("n", "<leader>gr", function()
+                neogit.open({ "rebase" })
+            end, { silent = true, desc = "[G]it: [R]ebase" })
+
+            -- 直接打开 Stash 视图
+            vim.keymap.set("n", "<leader>gs", function()
+                neogit.open({ "stash" })
+            end, { silent = true, desc = "[G]it: [S]tash" })
+        end,
+    },
+    {
+        "arnamak/stay-centered.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("stay-centered").setup({
+                center_on_open = true,
+                center_on_scroll = true,
+            })
+        end,
     },
 }
