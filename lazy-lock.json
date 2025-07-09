@@ -39,7 +39,7 @@
   "stay-centered.nvim": { "branch": "main", "commit": "e1a63ccaf2584e97c0ef8e64f9654c9a80d983f6" },
   "telescope-project.nvim": { "branch": "master", "commit": "8e11df94419e444601c09828dadf70890484e443" },
   "telescope.nvim": { "branch": "master", "commit": "b4da76be54691e854d3e0e02c36b0245f945c2c7" },
-  "ui": { "branch": "v3.0", "commit": "ec5b1f8e591b2e8f1cd3653b41bb14d9cd43dfd1" },
+  "ui": { "branch": "v3.0", "commit": "1d0f035121ae67339c773ec7263dcc5c883cc671" },
   "volt": { "branch": "main", "commit": "7b8c5e790120d9f08c8487dcb80692db6d2087a1" },
   "which-key.nvim": { "branch": "main", "commit": "370ec46f710e058c9c1646273e6b225acf47cbed" }
 }
