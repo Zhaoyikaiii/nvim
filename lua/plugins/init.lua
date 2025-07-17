@@ -330,4 +330,17 @@ return {
             require("telescope").load_extension("project")
         end,
     },
+    {
+        "ahmedkhalf/project.nvim",
+        config = function()
+            require("project_nvim").setup({
+                -- detection_methods: 设置检测项目根目录的方式, "lsp" 和 "pattern" 通常足够了
+                -- "lsp" 会使用LSP找到的根目录, "pattern" 会向上查找 .git, package.json 等标记
+                detection_methods = { "lsp", "pattern" },
+
+                -- patterns: "pattern" 方法查找的标记文件/文件夹
+                patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json" },
+            })
+        end,
+    },
 }
