@@ -73,3 +73,8 @@ end, { desc = "Git: Preview Hunk" })
 -- === Neogit (项目级操作) ===
 map("n", "<leader>gg", ":Neogit<CR>", { desc = "Git: Neogit Status" })
 map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Find in Files (Grep)" })
+
+-- === Find Project(项目切换) ===
+map("n", "<leader>fp", function()
+    require("telescope").extensions.project.project()
+end, { desc = "Find Project" })

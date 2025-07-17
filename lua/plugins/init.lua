@@ -311,4 +311,23 @@ return {
             })
         end,
     },
+    {
+        "nvim-telescope/telescope-project.nvim",
+        dependencies = { "nvim-telescope/telescope.nvim" },
+        config = function()
+            require("telescope").setup({
+                extensions = {
+                    project = {
+                        base_dirs = {
+                            "~/projects",
+                            "~/.config",
+                        },
+                        theme = "dropdown",
+                        hidden_files = true,
+                    },
+                },
+            })
+            require("telescope").load_extension("project")
+        end,
+    },
 }
