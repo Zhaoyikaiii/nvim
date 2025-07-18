@@ -4,7 +4,8 @@ require("nvchad.mappings")
 
 local map = vim.keymap.set
 
-map("n", ";", ":", { desc = "CMD enter command mode" })
+-- 注释掉或删除这一行来恢复 ; 的默认功能
+-- map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
