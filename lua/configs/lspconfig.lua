@@ -118,6 +118,14 @@ lspconfig.gopls.setup({
             completeUnimported = true,
             usePlaceholders = true,
             staticcheck = true,
+            ["gofumpt"] = true, -- Enable gofumpt formatting
+            ui = {
+                usePlaceholders = true, -- Use placeholders in completion
+            },
+            ["build.env"] = {},
+            ["formatting.gofumpt"] = true,
+            ["experimental.views"] = "vgo_v1",
+            ["build.buildFlags"] = { "-tags=integration" },
         },
     },
 })

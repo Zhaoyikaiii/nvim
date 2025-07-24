@@ -159,7 +159,7 @@ return {
                     enabled = true,
                     auto_trigger = true,
                     keymap = {
-                        accept = "<Tab>", -- 使用 Tab 键接受建议
+                        accept = "<C-`>", -- 使用 Tab 键接受建议
                         next = "<C-j>", -- 查看下一个建议
                         prev = "<C-k>", -- 查看上一个建议
                         dismiss = "<C-e>", -- 关闭建议
