@@ -10,13 +10,24 @@ M.config = {
 
 -- Get current memory usage in MB
 local function get_memory_usage()
-  local handle = io.popen('powershell "Get-Process nvim | Select-Object -ExpandProperty WorkingSet64"')
-  if not handle then return 0 end
-  local result = handle:read("*a")
-  handle:close()
+  -- Try different methods based on the platform
+  local memory_bytes = 0
 
-  local memory_bytes = tonumber(result) or 0
-  return memory_bytes / (1024 * 1024) -- Convert to MB
+  -- Method 1: Try using ps command (Linux/macOS)
+  local handle = io.popen('ps -o rss= -p ' .. vim.fn.getpid())
+  if handle then
+    local result = handle:read("*a")
+    handle:close()
+    memory_bytes = tonumber(result) or 0
+    if memory_bytes > 0 then
+      return memory_bytes / 1024 -- Convert KB to MB
+    end
+  end
+
+  -- Method 2: Fallback to a simple estimation
+  -- Use collectgarbage("count") which returns memory in KB
+  local gc_memory = collectgarbage("count") or 0
+  return gc_memory / 1024 -- Convert KB to MB
 end
 
 -- Cleanup functions

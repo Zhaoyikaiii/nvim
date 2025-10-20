@@ -105,7 +105,7 @@ return {
 
   -- Configure mason.nvim for LSP management
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {
       max_concurrent_installers = 1, -- Limit concurrent installations
     },
@@ -117,11 +117,7 @@ return {
     opts = function(_, opts)
       opts = opts or {}
       opts.sources = opts.sources or {}
-      -- Use rustfmt for formatting only when needed
-      if vim.fn.executable("rustfmt") == 1 then
-        local null_ls = require("null-ls")
-        table.insert(opts.sources, null_ls.builtins.formatting.rustfmt)
-      end
+      -- Rust formatting will be handled by rust-analyzer's built-in formatting
       return opts
     end,
   },
