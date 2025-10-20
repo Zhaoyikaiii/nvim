@@ -166,12 +166,9 @@ return {
             },
           },
         },
-        -- Use custom rust-analyzer command with memory limits
+        -- Use custom rust-analyzer command
         cmd = function()
-          local ra_cmd = { "rust-analyzer" }
-          -- Add memory limit flags
-          table.insert(ra_cmd, "--memory-limit=512MB") -- Limit to 512MB
-          return ra_cmd
+          return { "rust-analyzer" }
         end,
       },
       -- Crates configuration
