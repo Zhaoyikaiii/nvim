@@ -1,6 +1,8 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
   opts = {
+    sources = { "filesystem", "buffers", "git_status", "document_symbols" },
+    bind_to_cwd = false,
     filesystem = {
       follow_current_file = {
         enabled = true,
@@ -8,24 +10,22 @@ return {
       },
       use_libuv_file_watcher = true,
     },
-  },
-  config = function(_, opts)
-    require("neo-tree").setup(opts)
 
-    vim.api.nvim_create_autocmd("BufEnter", {
-      group = vim.api.nvim_create_augroup("NeoTreeForceReveal", { clear = true }),
-      callback = function()
-        local current_file = vim.fn.expand("%:p")
-        if vim.fn.filereadable(current_file) == 1 then
-          vim.schedule(function()
-            require("neo-tree.command").execute({
-              action = "show",
-              reveal = true,
-              reveal_force_cwd = false
-            })
-          end)
-        end
-      end,
-    })
-  end,
+    document_symbols = {
+      follow_cursor = true,
+      client_filters = "first",
+      renderers = {
+        root = {
+          {"indent"},
+          {"icon", default = "C" },
+          {"name", zindex = 10 },
+        },
+        symbol = {
+          {"indent", with_expanders = true },
+          {"kind_icon", default = "?" },
+          {"container", content = { {"name", zindex = 10 } } },
+        },
+      },
+    },
+  },
 }

@@ -1,59 +1,45 @@
 return {
   "nvim-neotest/neotest",
   dependencies = {
-    "nvim-neotest/neotest-go",
+    "nvim-neotest/nvim-nio",
     "nvim-lua/plenary.nvim",
+    "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
-    "nvim-neotest/nvim-nio", -- 添加缺失的依赖
+    "fredrikaverpil/neotest-golang",
   },
   config = function()
-    -- get neotest namespace (api call creates or returns namespace)
-    local neotest_ns = vim.api.nvim_create_namespace("neotest")
-    vim.diagnostic.config({
-      virtual_text = {
-        format = function(diagnostic)
-          local message =
-            diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
-          return message
-        end,
-      },
-    }, neotest_ns)
+
     require("neotest").setup({
       adapters = {
-        require("neotest-go")({
-          args = { "-coverprofile=coverage.out" },
+        require("neotest-golang")({
+          go_test_args = {
+            "-v",
+            "-race",
+            "-count=1",
+            "-timeout=60s",
+          },
+          dap_go_enabled = true,
+          warn_test_name_dupes = false,
         }),
       },
-      -- Configure neotest settings
-      discovery = {
-        enabled = true,
+      status = {
+        virtual_text = true,
+        signs = true,
       },
-      running = {
-        concurrent = true,
-      },
-      summary = {
-        open = "topleft",
-        mappings = {
-          attach = "a",
-          expand = { "<CR>", "<2-LeftMouse>" },
-          expand_all = "e",
-          jumpto = "i",
-          run = "r",
-          run_marked = "R",
-          short = "o",
-          stop = "u",
-          clear_target = "U",
-          clear_marked = "C",
-        },
-      },
+
       output = {
         open_on_run = true,
-        enabled = true,
       },
-      status = {
-        enabled = true,
-        virtual_text = true,
+
+      summary = {
+        open = "botright vsplit | vertical resize 50",
       },
     })
   end,
+  keys = {
+    { "<leader>tt", function() require("neotest").run.run() end, desc = "Run Nearest" },
+    { "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File" },
+    { "<leader>to", function() require("neotest").output.open({ enter = true }) end, desc = "Show Output" },
+    { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Toggle Summary" },
+  },
 }
