@@ -1,1 +1,11 @@
-/home/yk/.config/omarchy/current/theme/neovim.lua
+return {
+  -- Default theme configuration
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("tokyonight")
+    end,
+  },
+}
