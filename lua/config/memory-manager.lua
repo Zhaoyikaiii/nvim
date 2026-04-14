@@ -50,10 +50,6 @@ local function cleanup_buffers()
   end
 end
 
-local function cleanup_jumplist()
-  vim.fn.setpos(".", vim.fn.getpos("."))
-  vim.cmd("clearjumps")
-end
 
 local function cleanup_registers()
   -- Clear registers except special ones
@@ -116,7 +112,6 @@ function M.cleanup()
   print("Starting memory cleanup...")
 
   cleanup_buffers()
-  cleanup_jumplist()
   cleanup_registers()
   cleanup_search()
   cleanup_undo()
@@ -165,14 +160,8 @@ function M.setup(opts)
     callback = M.cleanup,
   })
 
-  vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
-    group = group,
-    callback = function()
-      if vim.fn.len(vim.fn.getbufinfo({ buflisted = 1 })) > 10 then
-        cleanup_buffers()
-      end
-    end,
-  })
+  -- NOTE: BufWinLeave cleanup removed — it fired when closing pickers (telescope/snacks)
+  -- and deleted buffers that were just opened via live grep, breaking file jump.
 
   -- Start monitoring
   M.start_monitoring()
