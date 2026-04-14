@@ -18,9 +18,13 @@ return {
       vim.cmd("colorscheme zaibatsu")
     end,
   },
-  -- Override snacks colorscheme picker to persist selection
+  -- Override snacks colorscheme picker to persist selection, and add grep keymaps
   {
     "folke/snacks.nvim",
+    keys = {
+      { "<leader>fg", function() Snacks.picker.grep() end,   desc = "Live Grep" },
+      { "<leader>fG", function() Snacks.picker.resume() end, desc = "Resume last picker" },
+    },
     opts = {
       picker = {
         sources = {
