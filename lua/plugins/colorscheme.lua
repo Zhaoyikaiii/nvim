@@ -15,7 +15,7 @@ return {
     },
     config = function(_, opts)
       require("tokyonight").setup(opts)
-      vim.cmd("colorscheme zaibatsu")
+      vim.cmd("colorscheme desert")
     end,
   },
   -- Override snacks colorscheme picker to persist selection, and add grep keymaps
@@ -30,9 +30,16 @@ return {
         sources = {
           colorschemes = {
             confirm = function(picker, item)
-              picker:close()
-              if not item then return end
+              if not item then
+                picker:close()
+                return
+              end
               local name = item.text
+              -- nil out state.colorscheme to prevent WinClosed from restoring old theme
+              if picker.preview and picker.preview.state then
+                picker.preview.state.colorscheme = nil
+              end
+              picker:close()
               vim.schedule(function()
                 vim.cmd("colorscheme " .. name)
                 -- Write the chosen colorscheme into colorscheme.lua
