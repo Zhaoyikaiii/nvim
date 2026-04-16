@@ -1,4 +1,18 @@
 -- Colorscheme
+local theme_file = vim.fn.stdpath("data") .. "/saved_colorscheme"
+
+local function load_saved_theme()
+  local ok, lines = pcall(vim.fn.readfile, theme_file)
+  if ok and lines and lines[1] and lines[1] ~= "" then
+    return lines[1]
+  end
+  return "tokyonight"
+end
+
+local function save_theme(name)
+  vim.fn.writefile({ name }, theme_file)
+end
+
 return {
   {
     "folke/tokyonight.nvim",
@@ -15,7 +29,6 @@ return {
     },
     config = function(_, opts)
       require("tokyonight").setup(opts)
-      vim.cmd("colorscheme desert")
     end,
   },
   -- Override snacks colorscheme picker to persist selection, and add grep keymaps
@@ -35,25 +48,14 @@ return {
                 return
               end
               local name = item.text
-              -- nil out state.colorscheme to prevent WinClosed from restoring old theme
               if picker.preview and picker.preview.state then
                 picker.preview.state.colorscheme = nil
               end
               picker:close()
               vim.schedule(function()
                 vim.cmd("colorscheme " .. name)
-                -- Write the chosen colorscheme into colorscheme.lua
-                local config_file = vim.fn.stdpath("config") .. "/lua/plugins/colorscheme.lua"
-                local lines = vim.fn.readfile(config_file)
-                local new_lines = {}
-                for _, line in ipairs(lines) do
-                  new_lines[#new_lines + 1] = line:gsub(
-                    'vim%.cmd%("colorscheme [^"]*"%)',
-                    'vim.cmd("colorscheme ' .. name .. '")'
-                  )
-                end
-                vim.fn.writefile(new_lines, config_file)
-                vim.notify('Colorscheme "' .. name .. '" saved to config', vim.log.levels.INFO)
+                save_theme(name)
+                vim.notify('Colorscheme "' .. name .. '" saved', vim.log.levels.INFO)
               end)
             end,
           },
