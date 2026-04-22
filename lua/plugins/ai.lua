@@ -21,6 +21,7 @@ return {
           insert_mode = true,
         },
         use_absolute_path = true,
+        verbose = false, -- suppress "Content is not an image" warning triggered by CJK IME input
       },
     },
   },

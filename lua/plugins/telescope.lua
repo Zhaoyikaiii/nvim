@@ -54,6 +54,7 @@ return {
       { "<leader>fw", "<cmd>Telescope lsp_workspace_symbols<cr>",  desc = "Workspace symbols" },
       { "<leader>fd", "<cmd>Telescope diagnostics<cr>",            desc = "Diagnostics" },
       { "<leader>/",  "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Fuzzy find in buffer" },
+      { "<leader>f~", "<cmd>Telescope grep_string<cr>",             desc = "Grep word under cursor", mode = { "n", "v" } },
     },
   },
 }
