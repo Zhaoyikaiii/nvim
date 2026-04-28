@@ -1,62 +1,108 @@
--- AI: copilot.lua + codecompanion.nvim
+-- AI: avante.nvim (Cursor-like AI coding assistant)
 return {
-  -- GitHub Copilot (modern Lua client)
+  -- Image paste support (optional, used by avante)
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
+    "HakonHarnes/img-clip.nvim",
+    event = "VeryLazy",
     opts = {
-      suggestion = {
-        enabled = true,
-        auto_trigger = true,
-        keymap = {
-          accept        = "<M-l>",
-          accept_word   = "<M-w>",
-          accept_line   = "<M-j>",
-          next          = "<M-]>",
-          prev          = "<M-[>",
-          dismiss       = "<M-e>",
+      default = {
+        embed_image_as_base64 = false,
+        prompt_for_file_name = false,
+        drag_and_drop = {
+          insert_mode = true,
         },
-      },
-      panel = { enabled = false },
-      filetypes = {
-        yaml     = true,
-        markdown = true,
-        help     = false,
-        gitcommit = false,
-        ["*"] = true,
+        use_absolute_path = true,
+        verbose = false, -- suppress "Content is not an image" warning triggered by CJK IME input
       },
     },
   },
 
-  -- AI coding assistant: chat, edit, agent
+  -- Avante: Cursor-like AI assistant
   {
-    "olimorris/codecompanion.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions" },
-    keys = {
-      { "<leader>aa", "<cmd>CodeCompanionActions<cr>",      mode = { "n", "v" }, desc = "AI actions" },
-      { "<leader>ac", "<cmd>CodeCompanionChat Toggle<cr>",  mode = { "n", "v" }, desc = "AI chat toggle" },
-      { "<leader>ai", "<cmd>CodeCompanion<cr>",             mode = { "n", "v" }, desc = "AI inline" },
-      { "ga",         "<cmd>CodeCompanionChat Add<cr>",     mode = "v",          desc = "Add to AI chat" },
-    },
+    "yetone/avante.nvim",
+    build = "make",
+    event = "VeryLazy",
+    version = false,
     opts = {
-      strategies = {
-        chat   = { adapter = "copilot" },
-        inline = { adapter = "copilot" },
-        agent  = { adapter = "copilot" },
-      },
-      display = {
-        chat = {
-          window = {
-            layout = "vertical",
-            width = 0.35,
+      provider = "kimi",
+      providers = {
+        kimi = {
+          __inherited_from = "openai",
+          endpoint = "https://api.moonshot.ai/v1",
+          model = "kimi-latest",
+          api_key_name = "MOONSHOT_API_KEY",
+          extra_request_body = {
+            temperature = 0.75,
+            max_tokens = 8192,
           },
         },
       },
+      behaviour = {
+        auto_suggestions = false,
+        auto_set_highlight_group = true,
+        auto_set_keymaps = true,
+        auto_apply_diff_after_generation = false,
+        support_paste_from_clipboard = false,
+        minimize_diff = true,
+        enable_token_counting = true,
+      },
+      windows = {
+        position = "right",
+        wrap = true,
+        width = 35,
+        sidebar_header = {
+          enabled = true,
+          align = "center",
+          rounded = true,
+        },
+      },
+      mappings = {
+        diff = {
+          ours = "co",
+          theirs = "ct",
+          all_theirs = "ca",
+          both = "cb",
+          cursor = "cc",
+          next = "]x",
+          prev = "[x",
+        },
+        suggestion = {
+          accept = "<M-l>",
+          next = "<M-]>",
+          prev = "<M-[>",
+          dismiss = "<C-]>",
+        },
+        submit = {
+          normal = "<CR>",
+          insert = "<C-s>",
+        },
+        ask = "<leader>aa",
+        edit = "<leader>ae",
+        refresh = "<leader>ar",
+        focus = "<leader>af",
+        toggle = {
+          default = "<leader>at",
+          debug = "<leader>ad",
+          hint = "<leader>ah",
+          suggestion = "<leader>as",
+          repomap = "<leader>aR",
+        },
+        sidebar = {
+          apply_all = "A",
+          apply_cursor = "a",
+          switch_windows = "<Tab>",
+          reverse_switch_windows = "<S-Tab>",
+        },
+      },
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "folke/snacks.nvim",
+      "MeanderingProgrammer/render-markdown.nvim",
+      "HakonHarnes/img-clip.nvim",
     },
   },
 }
