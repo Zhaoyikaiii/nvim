@@ -1,14 +1,5 @@
 -- AI: avante.nvim (Cursor-like AI coding assistant)
 return {
-  -- Markdown rendering (required by avante)
-  {
-    "MeanderingProgrammer/render-markdown.nvim",
-    ft = { "markdown", "Avante" },
-    opts = {
-      file_types = { "markdown", "Avante" },
-    },
-  },
-
   -- Image paste support (optional, used by avante)
   {
     "HakonHarnes/img-clip.nvim",
