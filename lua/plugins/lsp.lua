@@ -111,17 +111,6 @@ return {
     },
   },
 
-  -- Configure null-ls for formatting (lighter than full LSP formatters)
-  {
-    "nvimtools/none-ls.nvim",
-    opts = function(_, opts)
-      opts = opts or {}
-      opts.sources = opts.sources or {}
-      -- Rust formatting will be handled by rust-analyzer's built-in formatting
-      return opts
-    end,
-  },
-
   -- Configure telescope for code actions (on-demand instead of always active)
   {
     "nvim-telescope/telescope.nvim",
