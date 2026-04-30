@@ -20,7 +20,7 @@ return {
       },
       -- 补全（nvim-cmp）
       completion = {
-        nvim_cmp = true,
+        nvim_cmp = false,
         min_chars = 2,
       },
       -- 新建笔记时使用标题作为文件名
