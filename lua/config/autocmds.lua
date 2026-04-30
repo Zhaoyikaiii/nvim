@@ -18,3 +18,17 @@ vim.ui.open = function(path)
   vim.notify("已复制到剪贴板，请在本地浏览器中粘贴打开:\n" .. path, vim.log.levels.INFO)
   return nil, nil
 end
+
+-- 切换项目/工作目录时自动重启 LSP，解决切换 Go 项目后 gopls 仍用旧项目上下文导致语法错误的问题
+vim.api.nvim_create_autocmd("DirChanged", {
+  pattern = "*",
+  callback = function()
+    local cwd = vim.fn.getcwd()
+    vim.schedule(function()
+      -- 停止当前所有 LSP 客户端
+      vim.lsp.stop_clients({ force = false })
+      vim.notify("已切换到: " .. cwd .. "，LSP 正在重新启动...", vim.log.levels.INFO)
+    end)
+  end,
+  desc = "Restart LSP on directory change to refresh project context",
+})
