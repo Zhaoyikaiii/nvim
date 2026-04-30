@@ -40,10 +40,13 @@ return {
   {
     "folke/snacks.nvim",
     keys = {
-      { "<leader>fg", function() Snacks.picker.grep() end,   desc = "Live Grep" },
-      { "<leader>fG", function() Snacks.picker.resume() end, desc = "Resume last picker" },
+      { "<leader>fg", function() Snacks.picker.grep() end,    desc = "Live Grep" },
+      { "<leader>fG", function() Snacks.picker.resume() end,  desc = "Resume last picker" },
+      { "<leader>e",  function() Snacks.explorer() end,       desc = "File Explorer" },
+      { "<leader>E",  function() Snacks.explorer.reveal() end, desc = "Reveal in explorer" },
     },
     opts = {
+      explorer = {},
       picker = {
         sources = {
           colorschemes = {

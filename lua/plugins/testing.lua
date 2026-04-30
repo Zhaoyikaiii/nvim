@@ -21,7 +21,7 @@ return {
         end, desc = "Run file tests" },
       { "<leader>tT", function()
           -- 找 go.mod 所在目录作为 root，而不是 cwd
-          local root = require("neotest").state.adapter_ids and vim.loop.cwd() or vim.loop.cwd()
+          local root = vim.loop.cwd()
           -- 尝试向上找 go.mod
           local path = vim.fn.expand("%:p:h")
           while path ~= "/" do

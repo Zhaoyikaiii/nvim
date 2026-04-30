@@ -26,6 +26,7 @@ return {
       require("nvim-treesitter.install").install({
         "lua", "luadoc",
         "go", "gomod", "gosum", "gowork",
+        "rust",
         "python",
         "typescript", "javascript", "tsx", "json",
         "html", "css",
