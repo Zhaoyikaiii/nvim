@@ -6,7 +6,7 @@ return {
     cmd = { "Codex", "CodexToggle" },
     keys = {
       {
-        "<leader>at",
+        "<leader>aa",
         function()
           require("codex").toggle()
         end,
@@ -20,11 +20,11 @@ return {
         quit = "<C-q>",
       },
       border = "rounded",
-      width = 0.8,
+      width = 0.6,
       height = 0.8,
       model = nil,
       autoinstall = true,
-      panel = true,
+      panel = false,
       use_buffer = false,
     },
   },
