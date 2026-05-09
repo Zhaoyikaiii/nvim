@@ -33,7 +33,7 @@ return {
         "bash",
         "yaml", "toml",
         "markdown", "markdown_inline",
-        "vim", "vimdoc",
+        "vimdoc",
         "diff", "gitcommit",
         "regex",
       })
