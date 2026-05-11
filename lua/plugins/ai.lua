@@ -1,9 +1,8 @@
--- AI: codex.nvim
 return {
   {
     "johnseth97/codex.nvim",
     lazy = true,
-    cmd = { "Codex", "CodexToggle", "CodexContinueBuffer" },
+    cmd = { "OpenCode", "OpenCodeToggle" },
     keys = {
       {
         "<leader>aa",
@@ -13,19 +12,10 @@ return {
         desc = "Toggle Codex",
         mode = { "n", "t" },
       },
-      {
-        "<leader>ac",
-        function()
-          require("codex").continue_with_buffer()
-        end,
-        desc = "Send Buffer Context To Codex",
-        mode = { "n" },
-      },
     },
     opts = {
       keymaps = {
         toggle = nil,
-        context = nil,
         quit = "<C-q>",
       },
       border = "rounded",
@@ -35,9 +25,9 @@ return {
       autoinstall = true,
       panel = false,
       use_buffer = false,
-      context = {
-        max_lines = 200,
-      },
+      name = "Codex",
+      pkg_name = "Codex",
+      cmd = "codex",
     },
   },
 }
